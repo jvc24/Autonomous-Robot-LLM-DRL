@@ -22,9 +22,10 @@ The framework supports:
 The overall pipeline can be summarized as:
 
 **human demonstrations → policy learning with SAC → task sequencing → language-guided execution**
+
+---
 ![Pipeline](Overall_flowchart.png)
 ---
-
 ## Repository Structure
 
 ### Atomic Task Folders
