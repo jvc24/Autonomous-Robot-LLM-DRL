@@ -32,3 +32,25 @@ The **primary entry point** for running multitask execution with the LLM and SAC
 
 ```bash
 python test_multitask_1b.py
+
+
+## LLaMA Model Access
+
+This project uses a gated Meta LLaMA model for language-guided task sequencing.  
+The model weights are **not included** in this repository.
+
+Before running the LLM-based inference code, you must:
+
+1. Create or sign in to your Hugging Face account.
+2. Request access to the required Meta LLaMA model on Hugging Face.
+3. Accept the corresponding Meta LLaMA license terms.
+4. After approval, download the model weights locally.
+
+Example Hugging Face model page:
+- `meta-llama/Llama-3.2-1B-Instruct`
+
+Example download command:
+
+```bash
+huggingface-cli login
+huggingface-cli download meta-llama/Llama-3.2-1B-Instruct --local-dir ./models/Llama-3.2-1B-Instruct
