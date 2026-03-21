@@ -1,56 +1,72 @@
 # Autonomous-Robot-LLM-DRL
 
-Autonomous robotic manipulation framework combining teleoperation data, deep reinforcement learning (SAC), and Large Language Models (LLMs) to enable sequential and multitask execution from natural language instructions in household environments, such as kitchen tasks.
 
+
+Autonomous robotic manipulation framework combining teleoperation data, deep reinforcement learning, and Large Language Models (LLMs) to enable sequential and multitask execution from natural language instructions in household kitchen environments.
+
+> **Note:** Due to licensing restrictions, LLaMA model weights are not distributed with this repository.
+
+---
+
+## Project Overview
+
+This project presents a complete pipeline for language-guided robotic manipulation in household environments. The main idea is to first train individual atomic manipulation skills from teleoperation data using deep reinforcement learning, and then combine these learned skills for sequential and multitask execution.
+
+The framework supports:
+
+- learning atomic tasks such as microwave, hinge, cabinet, and other household manipulation actions
+- combining individual task policies into multitask execution pipelines
+- using sentence embeddings or Large Language Models (LLMs) to map natural language instructions into executable task sequences
+- enabling flexible and interactive robotic behavior from human instructions
+
+The overall pipeline can be summarized as:
+
+**human demonstrations → policy learning with SAC → task sequencing → language-guided execution**
 ![Pipeline](Overall_flowchart.png)
 ---
 
-## **Project Overview**
+## Repository Structure
 
-This project aims to create a pipeline for interactive and autonomous robots that can:
+### Atomic Task Folders
+The individual tasks are organized in separate folders such as:
 
-1. Learn **individual atomic tasks** from teleoperation data using **deep reinforcement learning (SAC)**.
-2. Execute **sequences of tasks** (multitask execution) based on **natural language instructions**.
-3. Integrate **Large Language Models (LLMs)** to translate human prompts into executable task sequences.
+- `microwave/`
+- `hinge/`
+- `cabinet/`
 
-The workflow connects **human demonstrations → DRL training → LLM task specification → sequential execution**.
+and other task-specific folders.
+
+These folders contain the training and evaluation code for the corresponding atomic manipulation skills.
+
+### LLM Folder
+The `LLM/` folder contains the code for training and fine-tuning the LLaMA model using **LoRA fine-tuning**.
+
+### Sentence Embedding Folder
+The `sentence_embedding/` folder contains the code for training the **sentence transformer model** used for instruction embedding and task retrieval.
 
 ---
 
-## **Folder Structure**
+## Inference Options
 
-- `microwave/`, `top_burner/`, `hinge_cabinet/`, … : Individual atomic tasks trained separately.  
-- `LLM/`: Training scripts for the **LLaMA model**, including LoRA fine-tuning for task sequence generation.  
-- `sentence_embedding/` : Training scripts for **sentence transformer models** to encode natural language instructions.  
-- `videos/`: Generated visualizations (optional).    
+There are **three main ways** to run multitask execution in this project.
 
----
-
-## **Main Inference / Execution**
-
-The **primary entry point** for running multitask execution with the LLM and SAC policies is:
+### 1. LLaMA-based multitask inference
+The main final inference file for multitask execution with **fine-tuned LLaMA + SAC** is:
 
 ```bash
 python test_multitask_1b.py
+```
 
-
-## LLaMA Model Access
-
-This project uses a gated Meta LLaMA model for language-guided task sequencing.  
-The model weights are **not included** in this repository.
-
-Before running the LLM-based inference code, you must:
-
-1. Create or sign in to your Hugging Face account.
-2. Request access to the required Meta LLaMA model on Hugging Face.
-3. Accept the corresponding Meta LLaMA license terms.
-4. After approval, download the model weights locally.
-
-Example Hugging Face model page:
-- `meta-llama/Llama-3.2-1B-Instruct`
-
-Example download command:
+### 2. Sentence embedding-based multitask inference
+The sentence embedding-based multitask file uses the trained sentence transformer model and does not require any LLaMA license or gated model access.
 
 ```bash
-huggingface-cli login
-huggingface-cli download meta-llama/Llama-3.2-1B-Instruct --local-dir ./models/Llama-3.2-1B-Instruct
+python test_embedding.py
+```
+
+### 2. Predefined multitask execution
+The following file runs multitask execution using task sequences already defined inside the file:
+
+```bash
+python test_multitask.py
+```
