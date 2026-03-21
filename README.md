@@ -2,6 +2,7 @@
 
 Autonomous robotic manipulation framework combining teleoperation data, deep reinforcement learning (SAC), and Large Language Models (LLMs) to enable sequential and multitask execution from natural language instructions in household environments, such as kitchen tasks.
 
+![Pipeline](Overall_flowchart.png)
 ---
 
 ## **Project Overview**
